@@ -5,7 +5,7 @@ import BreadCrumb from "../Components/BreadCrumb";
 import { useState } from "react";
 import Header from "../Components/Header";
 import CarCard from "../Components/CarCard";
-import Pagination from "../Components/pagination";
+import Pagination from "../Components/Pagination";
 import { OrbitProgress } from "react-loading-indicators";
 
 function AllCars() {
