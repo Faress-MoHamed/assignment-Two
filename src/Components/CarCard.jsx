@@ -44,10 +44,13 @@ const CarCard = ({ car }) => {
 							</span>
 						</div>
 					</div>
-					<button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2">
+					<Link
+						to={`../cars/${car.id}`}
+						className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
+					>
 						Rent Now
 						<img src={RightArrow} alt="right arrow" />
-					</button>
+					</Link>
 				</div>
 			</div>
 		</Link>
