@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import CarCard from "../../Components/CarCard";
 import Header from "../../Components/Header";
 import SearchBar from "../../Components/SearchBar";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 // Import images statically
@@ -17,21 +17,24 @@ function HighlistCar() {
 	const [cars, setCars] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 
-	const { isError, refetch } = useQuery({
+	// Fetch cars using react-query
+	const { isError, data, refetch } = useQuery({
 		queryKey: ["cars"],
 		queryFn: async () => {
 			try {
-				const response = await axios.get(
-					"https://freetestapi.com/api/v1/cars?limit=4"
-				);
-
-				setCars(response.data);
-				return response.data;
+				const response = await axios.get("https://myfakeapi.com/api/cars");
+				setCars(response.data.cars);
+				return response.data.cars;
 			} catch (error) {
 				console.error(error);
 			}
 		},
 	});
+
+	// Filter cars based on search term
+	const filteredCars = cars
+		.filter((car) => car.car.toLowerCase().includes(searchTerm.toLowerCase()))
+		.slice(0, 4);
 
 	useEffect(() => {
 		if (searchTerm.length === 0) {
@@ -45,18 +48,18 @@ function HighlistCar() {
 				<SearchBar
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
-					setCars={setCars}
+					refetch={refetch}
 				/>
 				<Header subtitle={"POPULAR RENTAL DEALS"}>
-					Most popular cars rental deals
+					Most popular car rental deals
 				</Header>
 				{isError ? (
 					<div>Failed to load cars</div>
-				) : cars.length === 0 ? (
+				) : filteredCars.length === 0 ? (
 					<p>No cars to show</p>
 				) : (
 					<div className="flex items-center flex-wrap justify-center gap-8 ">
-						{cars?.map((el, idx) => (
+						{filteredCars?.map((el, idx) => (
 							<CarCard image={images[idx]} key={el.id} car={el} />
 						))}
 					</div>

@@ -18,11 +18,9 @@ function AllCars() {
 		queryKey: ["cars", page],
 		queryFn: async () => {
 			try {
-				const response = await axios.get(
-					`https://freetestapi.com/api/v1/cars?limit=${page * 10}`
-				);
-				setCars(response.data);
-				return response.data;
+				const response = await axios.get(`https://myfakeapi.com/api/cars/`);
+				setCars(response.data.cars);
+				return response.data.cars;
 			} catch (error) {
 				console.error(error);
 			}
